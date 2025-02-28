@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Surprise</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #ffccff;
+        }
+        #welcome, #login, #quiz, #videoPage, #message, #nextBtn {
+            display: none;
+        }
+        .container {
+            width: 300px;
+            margin: auto;
+            padding: 20px;
+            background: white;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            margin-top: 100px;
+        }
+        button {
+            padding: 10px;
+            background: #ff69b4;
+            border: none;
+            color: white;
+            cursor: pointer;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+        button:hover {
+            background: #ff1493;
+        }
+        #message {
+            font-size: 18px;
+            font-weight: bold;
+            color: red;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="welcome" class="container" style="background-color: pink;">
+        <h1>HAPPY BIRTHDAY DEEPU💗🫂</h1>
+        <h2>MY BESTESTTTTTTT FRIEND💗🥰</h2>
+        <button onclick="showLogin()">Next</button>
+    </div>
+    
+    <div id="login" class="container">
+        <h2>Login</h2>
+        <input type="text" id="username" placeholder="Username"><br>
+        <input type="password" id="password" placeholder="Password">
+        <input type="checkbox" onclick="togglePassword()"> Show Password<br>
+        <button onclick="checkLogin()">Login</button>
+    </div>
+
+    <div id="quiz" class="container">
+        <h2>Birthday Quiz</h2>
+        <p id="question"></p>
+        <div id="options"></div>
+        <div id="message"></div>
+        <div id="extraMessage" style="display:none; font-size: 18px; font-weight: bold; color: blue; margin-top: 10px;"></div>
+        <button id="nextBtn" onclick="nextQuestion()">Next</button>
+    </div>
+    
+    <div id="videoPage">
+        <h2>Surprise for You! 🎉</h2>
+        <video width="80%" controls>
+            <source src="video.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <script>
+        document.getElementById("welcome").style.display = "block";
+        
+        function showLogin() {
+            document.getElementById("welcome").style.display = "none";
+            document.getElementById("login").style.display = "block";
+        }
+        
+        function togglePassword() {
+            let passField = document.getElementById("password");
+            passField.type = passField.type === "password" ? "text" : "password";
+        }
+
+        function checkLogin() {
+            let user = document.getElementById("username").value;
+            let pass = document.getElementById("password").value;
+            if (user === "deebee" && pass === "deepanshib@#1") {
+                document.getElementById("login").style.display = "none";
+                document.getElementById("quiz").style.display = "block";
+                startQuiz();
+            } else {
+                alert("Wrong credentials! Try again.");
+            }
+        }
+
+        let questions = [
+            { q: "Pehle he aapko bta de aap 19 ke ho gye h, yaad toh h na aapko?", options: ["Yes", "No"], responses: ["Congo 😂😂🥰", "Pagal 😂"] },
+            { q: "Kya aap apne aap ko chand samajhte ho?", options: ["Yes", "No"], responses: ["Kam me settle hone ki aadat gai nahi😭😭", "Ek baar firse dekh lo apne aap ko🥰🥰🥰"], extra: "CHAND KO BHI APNE UPER ITNA GURUR NAHI H , KYUKI USME DAAG JO H🥰🥰" },
+            { q: "Kya aapko chocolates pasand h?", options: ["Yes", "No"], responses: ["Ptaa he thaa😂😂", "Error, pagalpan ka"] },
+            { q: "Kya aapke naak pr hamesha gussa rahata h?", options: ["Yes", "Always", "Sometimes", "Never"], responses: ["Kafi self aware h aap😂😂", "Kafi self aware h aap😂😂", "Kafi self aware h aap😂😂", "Self aware hone ki jarurat h abhi😂😂"] },
+            { q: "Ye rahi aapki video, wanna see it?", options: ["Yes"], responses: [""] }
+        ];
+        
+        let index = 0;
+        function startQuiz() {
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            let qObj = questions[index];
+            document.getElementById("question").innerText = qObj.q;
+            let optionsDiv = document.getElementById("options");
+            optionsDiv.innerHTML = "";
+            document.getElementById("message").innerText = "";
+            document.getElementById("extraMessage").style.display = "none";
+            document.getElementById("nextBtn").style.display = "none";
+
+            qObj.options.forEach((opt, i) => {
+                let btn = document.createElement("button");
+                btn.innerText = opt;
+                btn.onclick = function () { checkAnswer(i); };
+                optionsDiv.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selectedIndex) {
+            document.getElementById("message").innerText = questions[index].responses[selectedIndex];
+            document.getElementById("message").style.display = "block";
+            document.getElementById("nextBtn").style.display = "block";
+            
+            if (questions[index].extra) {
+                setTimeout(() => {
+                    document.getElementById("extraMessage").innerText = questions[index].extra;
+                    document.getElementById("extraMessage").style.display = "block";
+                }, 3000);
+            }
+        }
+
+        function nextQuestion() {
+            index++;
+            if (index < questions.length) {
+                loadQuestion();
+            } else {
+                document.getElementById("quiz").style.display = "none";
+                document.getElementById("videoPage").style.display = "block";
+            }
+        }
+    </script>
+</body>
+</html>
